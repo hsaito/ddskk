@@ -30,8 +30,14 @@
 ;; SKK が検索する辞書
 ;; (setq skk-large-jisyo "/usr/share/skk/SKK-JISYO.L")
 
-;; ja-dic を無効とする
+;; ja-dic.el を利用したかな漢字変換(DDSKK 14.2〜)を無効とする
 ;; (setq skk-inhibit-ja-dic-search t)
+
+;; 前候補/前候補群に戻る操作
+;; (setq skk-previous-candidate-keys (list "x" "\C-p"))
+
+;; SHIFT キーを使うことなく、見出し語・送り仮名の位置を指定する
+;; (setq skk-sticky-key ";")
 
 ;; @@ 表示の設定
 
@@ -39,6 +45,8 @@
 (setq skk-japanese-message-and-error t)
 
 ;; モードライン上の表示を変更する
+;;   'left => モードラインの左端に表示する
+;;   以外  => マイナーモードとして表示する
 ;; (setq skk-status-indicator 'minor-mode)
 
 ;; メニューバーの表示
@@ -47,14 +55,20 @@
 ;; (setq skk-show-japanese-menu nil)
 
 ;; 変換時に注釈 (annotation) を表示する
-(setq skk-show-annotation t)
+(setq skk-show-annotation
+      t					; 常に表示
+;      '(not list)			; *候補*バッファでは非表示
+;      '(not minibuf)			; ミニバッファでは非表示
+;      '(not list minibuf)		; 両方とも非表示
+      )
+
 ;; 注釈を表示するまでの遅延を秒で指定する
 ;; (setq skk-annotation-delay 0)
 
 ;; 注釈 (annotation) の表示の仕方
 ;;   Non-nil => エコーエリアに表示する (デフォルト)
 ;;   nil => 別な window に表示する
-;; (setq skk-annotation-show-as-message nil)
+;; (setq skk-annotation-show-as-message nil) ;`skk-show-tooltip' が優先される
 
 ;; 変換前/変換中にエコーエリアに冗長なメッセージを表示
 (setq skk-verbose t)
@@ -331,6 +345,9 @@
 ;; 注2) `skk-search-prog-list' を手動で設定している場合はこの機能の
 ;;   動作は保証されません。
 
+;; 異体字の候補を表示する
+(setq skk-itaiji-jisyo "/usr/share/skk/SKK-JISYO.itaiji")
+
 ;; look コマンドを使った検索を行う
 (setq skk-use-look t)
 
@@ -549,6 +566,20 @@
 			   cand))
 	      (skk-update-jisyo-original word)))))
 
+;; @@ 辞書登録に関する設定
+
+;; 強制的に辞書登録モードに入るキーキャラクタ
+;; (setq skk-force-registration-mode-char ?.)
+
+;; 「↓辞書登録中↓」に適用するフェイス
+;; skk-jisyo-registration-badge-face 
+
+;; experimental/skk-search-web.el をインストールすると、
+;;   辞書登録モードに移ったときの初期値に Google サジェストを利用できます
+;;     (setq skk-read-from-minibuffer-function
+;;           (lambda ()
+;;             (car (skk-google-suggest skk-henkan-key))))
+
 ;; @@ SKK abbrev mode
 ;; 見出し語の補完において Lisp シンボルも補完する
 ;; (add-to-list 'skk-completion-prog-list
@@ -616,5 +647,27 @@
 ;;   "`lisp-interaction-mode' において英数モードを回避する。"
 ;;   (when (eq major-mode 'lisp-interaction-mode)
 ;;     (skk-mode-off)))
+
+;; ■モードのまま C-j を有効とする
+(defun skk-C-j-key (arg)
+  (interactive "P")
+  (let ((enable-modes '(lisp-interaction-mode ; eval-print-last-sexp
+			emacs-lisp-mode	      ; newline-and-indent
+			;; and more.
+			)))
+    (cond
+     ((and (null (skk-in-minibuffer-p)) 
+	   (null skk-henkan-mode)
+	   (member major-mode enable-modes))
+      (skk-emulate-original-map arg))
+     (t
+      (skk-kakutei arg)))))
+
+(add-to-list 'skk-rom-kana-rule-list
+	     '(skk-kakutei-key nil skk-C-j-key))
+
+;; よく使う英単語を■モードのままでも
+(add-to-list 'skk-rom-kana-rule-list
+	     '("http" nil "http://"))
 
 ;;; dot.skk ends here

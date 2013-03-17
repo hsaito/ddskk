@@ -4,8 +4,8 @@
 ;;
 ;; Author: Masatake YAMATO <jet@gyve.org>
 ;; Created: Tue May 13 19:12:23 2003
-;; Version: $Id: context-skk.el,v 1.15 2011/06/10 12:23:46 skk-cvs Exp $
-;; Last Modified: $Date: 2011/06/10 12:23:46 $
+;; Version: $Id: context-skk.el,v 1.17 2013/01/13 09:45:48 skk-cvs Exp $
+;; Last Modified: $Date: 2013/01/13 09:45:48 $
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 ;;
 ;; (1) 編集の文脈に応じて自動的に skk のモードを latin に切り替えます。
 ;;   明らかに skk による日本語入力が必要ない個所で、skk をオンにしたまま
-;;   キー操作を行なったために emacs からエラーの報告を受けたり、わざわざ
+;;   キー操作したために emacs からエラーの報告を受けたり、わざわざ
 ;;   skk をオフにしてテキストを修正するのは不快です。これを抑制することが
 ;;   この機能の目的です。
 ;;
@@ -130,7 +130,7 @@
 ;;;###autoload
 (defcustom context-skk-custumize-functions 
   '(context-skk-customize-kutouten)
-  "*skk による入力開始直前に、入力のカスタマイズを行うための関数を登録する。
+  "*skk による入力開始直前に、入力をカスタマイズする関数を登録する。
 関数は以下の形式のデータを要素とするリストを返すものとする: 
 
   \(VARIABLE VALUE\)
@@ -193,19 +193,18 @@
 ;;
 ;; Advices
 ;;
-(defadvice skk-insert (around skk-insert-ctx-switch activate)
-  "文脈に応じて自動的に skk の入力モードを latin にする。"
-  (if (and context-skk-mode (context-skk-context-check))
-      (context-skk-insert) 
-    (eval `(let ,(context-skk-custumize)
-	     ad-do-it))))
+(defmacro define-context-skk-advice (target)
+  `(defadvice ,target (around ,(intern (concat (symbol-name target) "-ctx-switch")) activate)
+     "文脈に応じて自動的に skk の入力モードを latin にする。"
+     (if context-skk-mode
+	 (if (context-skk-context-check)
+	     (context-skk-insert) 
+	   (eval `(let ,(context-skk-custumize)
+		    ad-do-it)))
+       ad-do-it)))
 
-(defadvice skk-jisx0208-latin-insert (around skk-jisx0208-latin-insert-ctx-switch activate)
-  "文脈に応じて自動的に skk の入力モードを latin にする。"
-  (if (and context-skk-mode (context-skk-context-check))
-      (context-skk-insert) 
-    (eval `(let ,(context-skk-custumize)
-	     ad-do-it))))
+(define-context-skk-advice skk-insert)
+(define-context-skk-advice skk-jisx0208-latin-insert)
 
 ;;
 ;; Helper

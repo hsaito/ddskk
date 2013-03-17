@@ -20,19 +20,19 @@ Describes how to install SKK for Emacs on Microsoft Windows.
 
 ** APEL
 
-In DDSKK 14.4, installation of APEL (A Portable Emacs Library) is no
-longer required under GNU Emacs 22 or later.  For Emacs 21 and XEmacs,
+In DDSKK 15.1, installation of APEL (A Portable Emacs Library) is no
+longer required under GNU Emacs 22 or later.  For XEmacs,
 make sure you have APEL 10.7 or later installed.  It is highly
 recommended that you install the latest release.  APEL is available
 at:
 
-    http://kanji.zinbun.kyoto-u.ac.jp/%7Etomo/lemi/dist/apel/
+    http://git.chise.org/elisp/apel/
 or
     ftp://ftp.jpl.org/pub/elisp/apel/
 
 ** Get SKK dictionaries and copy them to ./dic subdirectory.
 
-In DDSKK 14.4, installation of an SKK dictionary is no longer
+In DDSKK 15.1, installation of an SKK dictionary is no longer
 mandatory under GNU Emacs 22 or later.  Emacs 22 contains a japanese
 kana-kanji dictionary called ja-dic as a part of the LEIM input
 method.  Indeed ja-dic is derived from SKK-JISYO.L and we wrote a
@@ -65,7 +65,7 @@ format, follow these steps.
 3. After you read the following installation instructions, do `make
    install'.  This will copy both SKK-JISYO.L and SKK-JISYO.L.cdb to
    the same place as SKK.tut, e.g. /usr/share/skk or
-   c:/emacs-23.2/etc/skk.
+   c:/emacs-24.2/etc/skk.
    
 4. Set skk-cdb-large-jisyo in your ~/.skk as the following.
 
@@ -98,13 +98,13 @@ Before actual installation, you can find out installation paths with
 If your editor is not just named emacs, you can specify the name as
 the following.
 
-    % make what-where EMACS=/usr/bin/emacs-23.2
+    % make what-where EMACS=/usr/bin/emacs-24.3
 
 If installation paths seem all right, proceed to installation with
 
     % make install
 or
-    % make install EMACS=/usr/bin/emacs-23.2
+    % make install EMACS=/usr/bin/emacs-24.3
 
 ** Installation for XEmacs
 
@@ -115,25 +115,15 @@ You can find out installation paths before actual installation with
 If your editor is not just named xemacs, you can specify the name as
 the following.
 
-    % make what-where-package XEMACS=/usr/bin/xemacs-21.5-b29
+    % make what-where-package XEMACS=/usr/bin/xemacs-21.5-b33
 
 If installation paths seem all right, proceed to installation with
 
     % make install-package
 or
-    % make install-package XEMACS=/usr/bin/xemacs-21.5-b29
+    % make install-package XEMACS=/usr/bin/xemacs-21.5-b33
 
 * Post-installation
-
-;; ** Obsolete check
-;; 
-;; Many variables and functions have been renamed since the previous
-;; major release.  You are strongly recommended to check old user
-;; settings. This will be done with loading skk-obsolete.el and executing
-;; 
-;;     M-x skk-obsolete-check-all-files.
-
-** File skk-obsolete.el has been deleted 2010-11-04 (DDSKK-14.2).
 
 ** Easy setup
 
@@ -159,6 +149,8 @@ Since the web manual is for the latest Daredevil SKK, it might not be
 compatible with the version you installed.
 
 Old manuals are
+    http://openlab.jp/skk/skk-manual/skk-15.1.pdf
+    http://openlab.jp/skk/skk-manual/skk-14.4.pdf
     http://openlab.jp/skk/skk-manual/skk-14.3.pdf
     http://openlab.jp/skk/skk-manual/skk-14.2.pdf
 

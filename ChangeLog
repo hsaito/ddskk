@@ -1,704 +1,552 @@
-2012-01-01  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-03-16  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* Version 14.4 Nakatsu Released.
+	* Version 15.1 Umeda Released.
 
-	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 14.4.
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 15.1.
 
-2011-12-30  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (skk-verbose-intention-face): 「どのwiki」を「どれを参照」
-	と修整.
-	(skk-check-okurigana-on-touroku): footnote から defvr へ変更.
-
-	* skk-vars.el (skk-verbose-intention-face): 「どのwiki」を「どれを参照」
-	と修整.
-	(skk-undo-kakutei-return-previous-point): docstring を修整.
-
-2011-12-27  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (文字コードを知る方法): M-x skk-display-code-for-char-at-point
-	を記載.
-
-	* skk-macs.el (skk-split-char): Add comment.
-
-2011-12-24  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (冗長な案内メッセージの表示): 更新.
-
-2011-12-23  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el: Set coding to iso-2022-7bit-ss2.
-	(skk-annotation-python-program)
-	(skk-annotation-dict-coding-system): In docstrings, modify charset
-	of some characters from chinese-gb2312 to japanese-jisx0208.
-
-2011-12-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi: @documentlanguage を追加.
-	@subsection 行の中で使われていた @code{}, @key{}, @kbd{} を削除.
-	@subsubsection 行も同様.
-
-2011-12-18  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-tut.el (skktut-init-variables-alist): Add skk-show-mode-show.
-
-	* skk-vars.el (skk-show-mode-invoked): New variable.
-	(skk-show-mode-show): ユーザオプション化.
-	(skk-show-mode-style): docstring を変更.
-
-	* skk-show-mode.el (skk-cursor-set): 判定に skk-show-mode-invoked を
-	加えた.
-	(skk-show-mode): 新たなコマンド.
-
-	* skk.el (skk-require-module): skk-show-mode を require.
-
-	* doc/skk.texi: 更新.
-
-2011-12-17  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* doc/skk.texi: Set coding to iso-2022-jp-3.
-
-2011-12-17  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-kcode.el (skk-kcode-read-code-string): RET のタイプで
-	char-list が起動するのか menu が起動するのかを、あらかじめ表示.
-
-2011-12-15  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-kcode.el (skk-display-code): Check function `char-to-ucs'
-	also at run time.
-
-2011-12-14  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* doc/skk.texi: Set coding to iso-2022-7bit.  Replace invisible
-	chars with correct ones.
-	* SKK-MK (SKK-MK-texinfo-coding-system): Default to iso-2022-7bit.
-	(SKK-MK-texinfo-pre-formart, SKK-MK-texinfo-post-format): New
-	functions.
-	(SKK-MK-texinfo-format): Call them.
-	* skk-annotation.el (skk-annotation-lookup-region-or-at-point):
-	Now this is defined with defun, while
-	`skk-annotation-wikipedia-region-or-at-point' is treated as an
-	alias.
-	* skk-emacs.el (skk-emacs-menu-resource-ja): Typo.
-	* skk-setup.el.in (skk-isearch-setup-maybe)
-	(skk-isearch-cleanup-maybe): Requie skk-vars.
-	* skk-vars.el (skk-kcode-charset): Update the custom type.
-	(skk-list-chars-mode-map): Define for the cursor keys.
-
-2011-12-13  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* doc/skk.texi: Update.
-	* skk-annotation.el, skk-isearch.el: Update comments.
-	* skk-emacs.el (skk-emacs-modeline-menu-items): Typo.
-	* skk-setup.el.in (skk-isearch-setup-maybe)
-	(skk-isearch-cleanup-maybe): New functions.
-	(isearch-mode-hook, isearch-mode-end-hook): Call them.
-	* skk-vars.el (skk-isearch-mode-enable): Always enable skk-isearch
-	if value is `always'.
-
-2011-12-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-kcode.el (skk-list-chars): コードを整理.
-
-2011-12-08  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skk-annotation-wait-for-input): Call
-	`lookup-word' if user try to browse the source for a lookup entry.
-
-2011-12-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi, Makefile, skk-version.el: Bump SKK version to 14.3.92.
-
-2011-12-07  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* doc/skk.texi: Update.
-	* skk-annotation.el (skkannot-wikipedia-format-buffer): Remove uls
-	in ja.wiktionary.
-	* skk-vars.el (skk-annotation-wiktionary-preferred-lang-alist):
-	Add "古典日本語".
-	(skkannot-ja-wiktionary-part-of-speech-regexp): Add "和語の漢字表
-	記".
-	* skk-emacs.el (skk-emacs-modeline-menu-items): Add new items for
-	skk-tankan, skk-list-chars,
-	skk-annotation-lookup-region-or-at-point, and skk-clock.
-	(skk-emacs-menu-resource-ja): Update.
-
-2011-12-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-search-state, skk-search-ex-state): New internal
-	variables.
-
-	* skk.el (skk-search, skk-search-extra-jisyo-files): Use it.
-	(skk-search-state): New command.
+2013-03-16  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
 	* doc/skk.texi: Update.
 
-2011-12-06  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* doc/skk.texi: Update.
-	* skk-lookup.el (skk-lookup-get-content): Simplify just slightly.
-	* skk.el (skk-backward-and-set-henkan-point-1): Ditto.
-
-2011-12-06  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-lookup.el (skk-lookup-get-content): Remove message().
-	(skk-lookup-get-content-setup-dic): Add message() and interactive().
-
-	* doc/skk.texi: 更新.
-
-2011-12-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-tankan.el (skk-tankan-name-radical-alist): 新たなリスト.
-	(skk-tankan-yomi-compread): 新たな関数.
-	(skk-tankan): 部首の読みに基づいて単漢字変換を実行.
-
-2011-12-05  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-other-sources): Add lookup.el.
-	(skkannot-cached-srcs): Renamed from
-	skk-annotation-wikimedia-srcs.
-	* skk-annotation.el (skkannot-in-normal-buffer-p)
-	(skkannot-clear-msg, skkannot-check-lookup): New functions.
-	(skkannot-cache, skk-annotation-wikipedia): Call
-	`skk-lookup-get-content' if source is lookup.el.
-	(skk-annotation-find-and-show): Pass skkannot-cached-srcs to
-	`skk-annotation-show' if skk-annotation-lookup-lookup is nil.
-
-2011-12-04  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-lookup-lookup): New user option.
-	(skk-treat-candidate-sample2): If it is set to `always', call
-	`skk-lookup-get-content'.
-	* skk.el (skk-check-treat-candidate-appearance-function): Check
-	it.
-	* skk-annotation.el (skk-annotation-find-and-show): Call
-	`skk-lookup-get-content' if `skk-annotation-lookup-lookup' is
-	non-nil.
-	* skk-lookup.el (skk-lookup-get-content): If content is a null
-	string, then return nil.  Take optional arg listing-p.
-
-2011-12-04  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-tankan-radical-name-face): 新たな FACE.
-
-	* skk-tankan.el (skk-tankan-radical-name): 新たな配列.
-	(skk-tankan-bushu-compread): skk-tankan-radical-name と
-	skk-tankan-radical-name-face を使用.
-
-	* doc/skk.texi: 更新.
-
-2011-12-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-03-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
 	* doc/skk.texi: Update.
 
-2011-11-30  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+2013-03-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-annotation.el (skkannot-DictServ-cache)
-	(skk-annotation-lookup-DictionaryServices): Remove unused local
-	variables.
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 15.0.90.
 
-2011-11-28  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+2013-02-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-vars.el (skk-annotation-wiktionary-preferred-lang-alist):
-	Modify the default value for en.wiktionary.
-	(skkannot-en-wiktionary-part-of-speech-regexp):  Add Kanji, Hanzi,
-	and Hanja.
+	* skk.el (skk-search-itaiji): New function.
 
-2011-11-27  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk-vars.el (skk-itaiji-jisyo): New variable.
+	(skk-search-prog-list): Use skk-search-itaiji().
 
-	* skk-show-mode.el (skk-cursor-set): インクリメンタル・サーチ中の
-	入力モード切り替え時には表示しない。変数 skk-isearch-switch で判断.
-
-2011-11-26  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skkannot-DictServ-command): New function.
-	(skk-annotation-lookup-DictionaryServices): Accept an optional
-	third arg force.
-	(skk-annotation-wikipedia-1): Call it with the 3rd arg non-nil.
-	* skk-vars.el (skk-annotation-lookup-DictionaryServices): Update
-	doc string.
-	(skkannot-py-none-regexp, skkannot-DictServ-cmd-format-str): New
-	constant variables.
-	* skk.el (skk-check-treat-candidate-appearance-function)
-	(skk-treat-candidate-appearance): New functions.
-	(skk-henkan-candidate-list, skk-treat-new-word): Call them.
-
-2011-11-26  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-version.el: Bump skk-version to 14.3.91.
-	* skk-vars.el (skk-annotation-show-wikipedia-url): Abolish
-	variable.
-	(skk-annotation-lookup-DictionaryServices): Accept `always'.
-	(skk-treat-candidate-sample2): If it is set to `always', call
-	`skk-annotation-lookup-DictionaryServices'.
-	* skk-annotation.el: Update comments.
-	(skk-skkannot-treat-wikipedia): Abolish function.
-	(skk-annotation-find-and-show, skk-annotation-wait-for-input): Do
-	not refer to skk-annotation-show-wikipedia-url.
 	* doc/skk.texi: Update.
 
-2011-11-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-02-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi, Makefile, skk-version.el: Bump SKK version to 14.3.90.
+	* doc/skk.texi: Update.
 
-2011-11-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-02-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-vars.el (skk-annotation-delay): 単位が秒である旨を記載.
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 14.4.54.
 
-	* doc/skk.texi (skk-annotation-delay): 追加.
-	(VIP/VIPERとの併用): 「I-search関連」と順を入れ替え.
+2013-02-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk.el (skk-check-size-and-do-save-jisyo): skk-yes-or-no-p() の
-	引数 JAPANESE と ENGLISH の生成が異なっていたのを修正.
+	* skk-gadget.el: Add (require 'cl).
+	(skk-current-date): Update docstring.
+	(skk-current-date-1): Use multiple-value-bind().
+	(skk-default-current-date): Update docstring.
+	Use multiple-value-bind().
+	(skk-relative-date): Add new function.
 
-2011-11-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-02-01  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi (skk-show-mode-style): 更新.
-	(文字コード関連): 更新.
+	* skk-gadget.el (skk-current-date, skk-current-date-1): Update docstring.
 
-	* experimental/skk-search-web.el: 追加.
-	* SKK-MK (SKK_MODULES): skk-search-web を追加.
+2013-01-17  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-2011-11-20  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk-vars.el (skk-num-type-alist, skk-num-grouping-separator)
+	(skk-num-grouping-places): Update docstring.
 
-	* skk-show-mode.el (skk-show-mode-inline): New file.
+	* skk-num.el (skk-num-exp, skk-num-type2-kanji)
+	(skk-num-type3-kanji, skk-num-type5-kanji): Update docstring.
 
-	* SKK-MK (SKK_MODULES): Add skk-show-mode.
+	* doc/skk.texi: Update.
 
-	* skk-vars.el (skk-show-mode-show, skk-show-mode-functions): New
-	internal variables.
-	(skk-show-mode-style): New user option.
+2013-01-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi (skk-show-mode-style): 追加.
+	* skk-vars.el (skk-num-type-alist): Add "#8 type" and use skk-num-grouping().
+	(skk-num-grouping-separator): New variable.
+	(skk-num-grouping-places): New variable.
 
-2011-11-19  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk-num.el (skk-num-exp): Add docstring "#8 type".
+	(add-number-grouping): Add optional argument PLACES.
+	(skk-num-grouping): Use skk-num-grouping-separator and skk-num-grouping-places.
 
-	* doc/skk.texi (SKKとはなにか): 更新.
-
-	* skk-inline.el (skk-add-background-color): docstring を修正.
-	(skk-inline-show-vertically): ソースコード上のインデント幅誤り
-	を修正.
-
-2011-11-18  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-wiktionary-preferred-lang-alist):
-	New user option.
-	* skk-annotation.el (skkannot-wikt-preferred-lang-regexp)
-	(skkannot-wikt-find-preferred-langs): New functions.
-	(skkannot-wikipedia-format-buffer): In wiktionary, prefer word
-	langs found in skk-annotation-wiktionary-preferred-lang-alist.
-
-2011-11-15  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skkannot-dict-exec-find, skkannot-sit-for)
-	(skkannot-py-send-string skkannot-py-send-command)
-	(skkannot-DictServ-cache, skkannot-dict-buffer-format)
-	(skkannot-start-dict-process, skkannot-wikipedia-clean-sup)
-	(skkannot-wikipedia-clean-sub, skkannot-wikipedia-format-buffer)
-	(skkannot-wikipedia-remove-nested, skkannot-wikipedia-retrieved)
-	(skkannot-wikipedia-test-html-tag, skkannot-treat-wikipedia)
-	(skkannot-cache, skkannot-generate-url)
-	(skkannot-wikipedia-normalize-word, skkannot-url-installed-p):
-	Abbreviate function names.
-	(skkannot-treat-wikipedia): Remove autoload cookie.
-	(skk-annotation-show-buffer): Use `skk-reset-henkan-count'.
-	* skk-vars.el (skkannot-remaining-delay, skkannot-buffer-origin)
-	(skkannot-py-buffer, skkannot-url-installed-p)
-	(skkannot-en-wiktionary-lang-regexp)
-	(skkannot-en-wiktionary-part-of-speech-regexp)
-	(skkannot-ja-wiktionary-lang-regexp)
-	(skkannot-ja-wiktionary-part-of-speech-regexp): Abbreviate
-	internal variable names.
-
-2011-11-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-lookup-get-content-nth-dic): docstring を修正.
-	* doc/skk.texi (アノテーションとしてEPWING辞書を表示する): 追加.
-
-2011-11-14  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el: Autoload `run-python'.
-	(skk-annotation-start-python):  Abolish the 2nd optional arg.
-
-2011-11-13  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skk-annotation-lookup-DictionaryServices):
-	Update the rule for truncating annotations.
-
-	* skk-annotation.el (skk-annotation-exclude-dict-maybe): Abolish
-	function.
-	(skk-annotation-send-python-string)
-	(skk-annotation-send-python-command): New functions.
-	(skk-annotation-start-python): Rename the newly created buffer to
-	an skk specific one.  Restore the original value of python-buffer
-	after that.
-	* skk-vars.el (skk-annotation-other-sources): Remove `dict' from
-	the default value.  Move `ja.wiktionary' to the top.
-
-	* skk-macs.el (skk-reset-henkan-count)
-	(skk-escape-from-show-candidates): New functions.
-	* skk-annotation.el (skk-annotation-sit-for)
-	(skk-annotation-wait-for-input)
-	* skk.el (skk-henkan-show-candidate-subr): Use them.
-
-	* skk-vars.el (skk-annotation-python-program): Simply find
-	"python" executable.
-	* skk-annotation.el (skk-annotation-start-python): Call
-	`set-buffer-process-coding-system'.
-	(skk-annotation-lookup-DictionaryServices): Make command a little
-	bit simple.  Insert the command if it has not been echoed.
-	Output a header line.
-	(skk-annotation-DictionaryServices-cache): Take word instead of
-	command as an argument.  Take optional arg truncate.
-
-2011-11-13  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-lookup-get-content-nth-dic) : New user option.
-	(skk-lookup-get-content-default-dic) 
-	(skk-lookup-get-content-default-dic-name): New internal variables.
-
-	* skk-lookup.el (skk-lookup-pickup-headings): Fix docstring.
-	(skk-lookup-get-content, skk-lookup-get-content-setup-dic): New Function.
-
-2011-11-12  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-lookup-DictionaryServices)
-	(skk-annotation-loop-interval): New user options.
-	(skk-annotation-python-program, skk-annotation-process-buffer):
-	New variables.
-	(skk-annotation-dict-program): Default to
-	skk-annotation-python-program under Darwin.
-	(skk-annotation-other-sources): Add `DictionaryServices'.  Move
-	`ja.wikitionary' next to `ja.wikipedia'.
-	* skk-annotation.el (skk-annotation-start-python)
-	(skk-annotation-DictionaryServices-cache)
-	(skk-annotation-lookup-DictionaryServices): New functions.
-	(skk-annotation-find-and-show, skk-annotation-wikipedia)
-	(skk-annotation-wikipedia-1, skk-annotation-wikipedia-cache):
-	Modify to accept `DictionaryServices'.
-	(skk-annotation-lookup-region-or-at-point): Alias to
-	`skk-annotation-wikipedia-region-or-at-point'.
-	(skk-annotation-wait-for-input): Modify according to it.
-	* skk.el (skk-mode-invoke, skk-preload): Call
-	`skk-annotation-start-python' if
-	skk-annotation-lookup-DictionaryServices is non-nil.
-
-2011-11-11  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skk-annotation-lookup-dict): Accept an
-	optional arg truncate for candidate listing.  Add autoload cookie.
-	Do not kill or erase buffer before the throw.
-	(skk-annotation-preread-dict): Take an optional arg nowait.
-	(skk-annotation-wikipedia-format-buffer): Avoid a loop in
-	ja.wikitionary articles.
-	(skk-annotation-find-and-show): Fix the order in
-	skk-annotation-wikimedia-srcs.
-	* skk-vars.el (skk-annotation-dict-program)
-	(skk-annotation-dict-program-arguments): Check the system type
-	darwin instead of the feature ns.
-
-2011-11-10  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-dict-coding-system): New user
-	option.
-	* skk-annotation.el (skk-annotation-dict-exec-find)
-	(skk-annotation-exclude-dict-maybe): New functions.
-	(skk-annotation-find-and-show)
-	(skk-annotation-wikipedia-region-or-at-point): Use them.
-	(skk-annotation-start-dict-process): Call
-	`skk-process-kill-without-query' here.  Set coding-system-for-read
-	according to skk-annotation-dict-coding-system.
-
-2011-11-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi: 微修正.
-
-2011-11-10  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-annotation.el (skk-annotation-start-process): Locally set
-	coding-system-for-read.  Encode word in utf-8.
-	(skk-annotation-preread-dict): Set skk-annotation-remaining-delay.
-	(skk-annotation-lookup-dict): Do not reset
-	skk-annotation-remaining-delay here.
-
-2011-11-07  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-macs.el (skk-process-kill-without-query): New function.
-	* skk-server.el (skk-open-network-stream): Use it.
-
-	* skk-annotation.el (skk-annotation-find-and-show): Always call
-	`skk-annotation-show'.
-	(skk-annotation-find-and-show)
-	(skk-annotation-wikipedia-region-or-at-point): Return nil even if
-	`executable-find' causes an error.
-	(skk-annotation-lookup-dict): Call
-	`skk-process-kill-without-query'.
-
-2011-11-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (領域の操作): skk-romaji-*-by-hepburn を @defvr.
-	(動的補完): skk-dcomp-multiple-activate を更新.
-	(外部コマンドからアノテーションを取得する): 新設.
-
-2011-11-07  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-original-buffer): New internal
-	variable.
-
-	* skk-annotation.el (skk-annotation-sit-for): New function.
-	(skk-annotation-find-and-show, skk-annotation-preread-dict)
-	(skk-annotation-lookup-dict): Use it.  Always set process.
-
-2011-11-06  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-vars.el (skk-annotation-delay, skk-annotation-lookup-dict)
-	(skk-annotation-dict-program)
-	(skk-annotation-dict-program-arguments): New user options.
-	(skk-annotation-other-sources): Rename from
-	skk-annotation-wikipedia-sources, which is now defined as an
-	obsolete variable alias.
-	(skk-annotation-remaining-delay, skk-annotation-first-candidate):
-	New variables.
-
-	* skk.el (skk-start-henkan): When entering henkan-active mode, set
-	skk-annotation-first-candidate to t.
-
-	* skk-annotation.el (skk-annotation-dict-buffer-format)
-	(skk-annotation-start-dict-process, skk-annotation-preread-dict)
-	(skk-annotation-lookup-dict): New functions.
-	(skk-annotation-find-and-show): If skk-annotation-lookup-dict is
-	non-nil, call them to find an annotation.  Wait for
-	skk-annotation-delay before showing the annotation when user is
-	acting quickly.
-	(skk-annotation-wait-for-input): Browse "dict://" instead of
-	"http://" for `dict' annotations.
-	(skk-annotation-message): Modify message.
-	(skk-annotation-wikipedia-1, skk-annotation-wikipedia-cache): When
-	source is `dict', call `skk-annotation-lookup-dict'.
-	(skk-annotation-wikipedia-region-or-at-point): When
-	skk-annotation-dict-program is not available, delete `dict' from
-	skk-annotation-other-sources.
-
-2011-11-06  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (このバージョンのSKKについて, skk-tut-lang)
-	(skk-tooltip-mouse-behavior): 更新.
-	(skk-tut-use-face, skk-show-num-type-info)
-	(skk-tooltip-parameters): 追加.
-
-2011-11-06  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-jisx0201.el: Update comments for JIS X 0201 Roman.
-
-2011-11-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-share-private-jisyo): doc string を更新.
-
-	* doc/skk.texi (読みの補完): 更新.
-
-2011-11-04  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (skk-extra-jisyo-file-list)
-	(辞書検索の設定の具体例): 更新.
-
-2011-11-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk.el (skk-kana-input): インデントを修正.
-
-2011-11-02  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi (skk-read-from-minibuffer-function)
-	(サ変動詞の辞書登録に関する注意, 再帰的辞書登録)
-	(確定辞書, 変換の学習): 更新.
-
-2011-11-01  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2013-01-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-num.el (add-number-grouping, skk-num-grouping): Add new functions.
+	Q 1 2 3 4 5 6 7 <SPC> => 1,234,567 .
+
+	* doc/skk.texi: Update URL for APEL
+	from http://kanji.zinbun.kyoto-u.ac.jp/%7Etomo/elisp/APEL/
+	to http://git.chise.org/elisp/apel/ .
+
+2013-01-13  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 14.4.53.
+
+2013-01-13  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el, skk-study.el, skk-server-completion.el, skk-num.el:
+	* skk-macs.el, skk-lookup.el, skk-look.el, skk-jisx0201.el:
+	* skk-hint.el, skk-gadget.el, skk-dcomp.el, skk-cursor.el:
+	* skk-comp.el, skk-annotation.el, skk-abbrev.el, context-skk.el:
+	* makeit.bat, skk.el: Update comment.
+
+	* doc/skk.texi: Update.
+
+2013-01-06  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk.el (skk-require-module): skk-show-mode-inline() は内部で
+	skk-dcomp-multiple-show() を利用しているため、'skk-show-mode の
+	require と同時に 'skk-dcomp も require する.
+
+	* skk-show-mode.el: comment を追加.
+
+	* skk-vars.el (skk-show-mode-show): docstring を修正.
+
+2013-01-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk.el (skk-henkan-list-filter): comment を追加.
+	(newline, newline-and-indent, exit-minibuffer)
+	(skk-wrap-newline-command): docstring を微修正.
+
+2013-01-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2013-01-02  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+	* skk-vars.el (skk-show-annotation): Update.
+
+	* skk-annotation.el (skk-annotation-display-p)
+	(skk-annotation-toggle-display-p): (eq FOO nil) に代えて (null FOO).
+
+2012-12-29  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk.el: Update comment.
+
+2012-12-25  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-12-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-12-22  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-12-09  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-gadget.el (skk-current-date, skk-clock): docstring を微修正.
+
+	* skk-develop.el (skk-submit-bug-report): `n' と答えたときのメッセージ消去.
+
+2012-12-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 14.4.52.
+
+2012-12-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-isearch.el (skk-isearch-delete-char): isearch-cmds の仕様変更に対応.
+
+2012-12-02  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-show-inline, skk-dcomp-multiple-activate):
+	Update Docstring.
+
+	* skk-isearch.el (skk-isearch-delete-char): GNU Emacs 21 向けのコードを削除.
+
+2012-11-26  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-kcode.el (skk-display-code): UNICODE 表示の暫定対応.
+
+2012-11-24  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-kcode.el (skk-display-code): composition 表示を追加.
+
+	* doc/skk.texi: Update.
+
+2012-11-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-11-09  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-11-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-tankan.el (skk-tankan-mode-usage): New command.
+
+	* skk-vars.el (skk-tankan-mode-map): Key `?' bind it in skk-tankan-mode-map.
+
+2012-10-21  Tatsuya Kinoshita <tats@vega.ocn.ne.jp>
+
+	* ccc.el (ccc-setup-current-colors, enable-theme, disable-theme):
+	M-x load-theme 対応.
+
+2012-10-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 14.4.51.
+
+2012-10-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-show-mode.el (skk-show-mode-inline): Byte compile 時の warning 対策の
+	ため declare-function() を追加.
+	* skk-dcomp.el (skk-dcomp-multiple-get-candidates): Ditto.
+	* skk-annotation.el (skkannot-py-send-string)
+	(skkannot-py-send-command): Ditto.
+
+2012-10-13  Yuhei Maeda <yuhei.maeda@gmail.com>
+
+	* skk.el (skk-make-indicator-alist-1): 削除された face 'modeline に代えて
+	'mode-line を使用。
+
+2012-09-17  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* bayesian/skk-bayesian.el (skk-bayesian-restart-process):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* skk-vars.el (skk-annotation-show-as-message): Update docstring.
+	* doc/skk.texi: Update.
+
+2012-09-16  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+
+	* skk-vars.el (skk-annotation-python-program): Temporary
+	workaround for some versions of Cocoa Emacs (24.2).  Prefer
+	python2.6.
+
+2012-09-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* experimental/skk-search-web.el (skk-google-suggest): json レスポンスが廃止
+	されているようであるため、xml レスポンスを使用するように変更.
+
+2012-09-03  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+	* experimental/skk-search-web.el: Update docstring.
+
+2012-09-01  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-31  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-28  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-tut.el (skk-kakutei, skk-mode): interactive-p() に代えて
+	skk-called-interactively-p() を使用.
+
+2012-08-26  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el: Update docstring.
+	* doc/skk.texi: Update.
+
+2012-08-25  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el: Update docstring.
+	* doc/skk.texi: Update.
+
+2012-08-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-auto-paren-string-alist): Update docstring.
+	* doc/skk.texi: Update.
+
+2012-08-22  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-20  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-19  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-egg-like-newline): Tiny fix docstring.
+	(skk-number-style): Update docstring.
+
+	* doc/skk.texi: Update.
+
+2012-08-18  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-15  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+
+	* ccc.el (frame-foreground-color, frame-background-color)
+	(set-buffer-local-foreground-color)
+	(set-buffer-local-background-color): Do not modify foregound and
+	backgorund colors on tty.
+	* skk-emacs.el (skk-emacs-prepare-modeline-properties): Modify the
+	dummy string for the icon.
+
+2012-08-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-08-11  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-macs.el (skk-set-deactivate-im-func)
+	(skk-deactivate-input-method): New macros.
+
+	* skk-leim.el (skk-activate, skk-auto-fill-activate):
+	Use skk-set-deactivate-im-func instead of
+	inactivate-current-input-method-function.
+	(skk-leim-exit-from-minibuffer): Use skk-deactivate-input-method instead of
+	inactivate-input-method.
+
+	* skk-isearch.el (skk-isearch-mode-setup):Use skk-set-deactivate-im-func func
+	instead of inactivate-current-input-method-function
+	(skk-isearch-mode-cleanup, skk-isearch-really-early-advice):
+	Use skk-deactivate-input-method instead of inactivate-input-method.
+
+2012-08-04  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+
+	* ccc.el (custom-theme-checkbox-toggle): New advice.
+	* skk-annotation.el (skk-annotation-wikipedia-1): Always use
+	`url-retrieve'.
+
+2012-07-30  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk.el (skk-mode): Update message.
+	(skk-require-module): Insert comment.
+	(skk-mode-invoke): Insert comment and Update message.
+
+	* skk-vars.el (skk-mode-hook): Update docstring.
+
+2012-07-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-force-registration-mode-char)
+	(skk-show-inline): Update docstring.
+
+2012-06-30  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-extra-jisyo-file-list)
+	(skk-allow-spaces-newlines-and-tabs)
+	(skk-check-okurigana-on-touroku): Update docstring.
+
+2012-06-24  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+	* skk-emacs.el (skk-tooltip-show-at-point): tooltip-use-echo-area を
+	不使用とした.
+
+2012-06-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-macs.el (skk-yes-or-no-p, skk-y-or-n-p): ソースコードのインデントを修正.
+
+	* skk-emacs.el (skk-tooltip-show-at-point): コメントを追加.
+
+	* doc/skk.texi (文脈に応じた自動モード切り替え): Update.
+
+2012-06-20  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: Update.
+
+2012-06-10  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+
+	* skk-vars.el (skk-delete-backward-char-commands)
+	(skk-undo-commands): New constant variables.
+	* skk.el (skk-setup-delete-backward-char, skk-setup-undo)
+	(skk-emulate-original-map): Use them.
+
+2012-05-26  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: update.
+
+2012-04-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* doc/skk.texi: update.
+	* skk-vars.el: Update docstring.
+
+2012-04-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el: Update docstring.
+
+2012-04-02  Masatake YAMATO  <yamato@redhat.com>
+
+	* context-skk.el (define-context-skk-advice): New macro.
+	`skk-insert-ctx-switch' and `skk-jisx0208-latin-insert-ctx-switch'
+	are generated by this macro.
+	(skk-insert-ctx-switch, skk-jisx0208-latin-insert-ctx-switch):
+	Just call the original function if `context-skk-mode' is nil.
+	Reported by Yoshiaki Kasahara <kasahara@nc.kyushu-u.ac.jp>.
+
+2012-01-20  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-tankan.el: Update comment.
+
+2012-01-19  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-kcode.el (skk-display-code): 文字集合が jisx0213, jisx0208, ascii
+	以外の場合に表示するメッセージを変更.
+
+2012-01-18  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-charset-list): Update docstring.
+
+	* skk-macs.el (skk-jisx0213-p): Add comment.
+
+	* skk-kcode.el (skk-display-code-for-char-at-point): Update comment.
+
+2012-01-16  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-macs.el (skk-sit-for): Emacs 21 向けコードを削除したことに伴って
+	GNU Emacs 22 以降の sit-for() と XEmacs の sit-for() に差異がなくなった
+	ことから、skk-sit-for() を廃止した.
+
+	* skk.el (skk-henkan-on-message):
+	* skk-gadget.el (skk-clock):
+	* skk-annotation.el (skkannot-sit-for, skk-annotation-message):
+	skk-sit-for() に代えて sit-for() を使用.
+
+2012-01-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* skk-vars.el (skk-running-gnu-emacs): 削除.
+	(skk-init-file): docstring を更新.
+	(skkannot-url-installed-p, skk-isearch-breakable-character-p-function):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* skk-viper.el: skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* SKK-MK (SKK-MK-server-installed-p): Emacs 21 向けコードを削除.
+
+	* skk-kcode.el (skk-display-code):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* skk-tankan.el (skk-tankan-get-char-data, skk-search-by-stroke-or-radical):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* skk-isearch.el (skk-isearch-mode-setup, skk-isearch-mode-cleanup):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
+
+	* skk-annotation.el (skk-annotation-wait-for-input, skkannot-py-send-command):
+	Emacs 21 向けコードを削除.
 
 	* doc/skk.texi: 更新.
 
-2011-10-31  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi: 更新.
+	* skk-tut.el (skktut-init-variables-alist):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
 
-2011-10-30  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+	* skk-study.el (skk-study-save): 主処理を skk-study-save-1() へ分離.
+	(skk-study-save-1): skk-study-save の主処理.
 
-	* skk-annotation.el (skk-annotation-wikipedia-format-buffer): Fix
-	regexp to detect disambiguation pages.
+	* skk-inline.el (skk-add-background-color): Emacs 21 向けコードを削除.
+	* skk-jisx0201.el:
+	エスケープシーケンス 1b 24 41 が混在していることが判明。これを削除.
 
-2011-10-30  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-13  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi: 更新.
+	* skk-cus.el (skk-cus-set): Emacs 21 向けコードを削除.
 
-2011-10-28  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk-cursor.el: skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
 
-	* skk-cus.el (skk-cus-params-visual): docstring の "助言的" を "冗長な" へ.
+2012-01-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi (skk-server-portnum): 記述誤りを修正.
-	(skk-customizeによる設定変更): @subsection 化した.
-	(skk-gyakubiki-jisyo-list, 動的補完): 修正.
+	* skk-emacs.el (skk-emacs-prepare-menu)
+	(skk-emacs-prepare-modeline-properties)
+	(skk-tooltip-show-at-point, skk-search-ja-dic): Emacs 21 向けコードを削除.
 
-2011-10-28  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+2012-01-11  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-var.el (skk-verbose, skk-verbose-wait)
-	(skk-verbose-message-interval, skk-verbose-intention-face)
-	(skk-verbose-kbd-face, skk-henkan-on-message): Replace in
-	docstrings "助言的" to "冗長な" to be more accurate.
-	{These are rather reversions than modifications.}
+	* skk-macs.el (characterp): Emacs 21 向けコードを削除.
+	* skk-emacs.el: Emacs 21 向けのコードを削除.具体的には次の３つ。
+  	  - defalias 'window-inside-pixel-edges 'ignore
+	  - defalias 'posn-at-point 'ignore
+	  - require 'poe
 
-2011-10-27  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi: 更新.
+	* SKK-MK: インストール時のバージョンチェック
+	string-lessp(emacs-version "22.0") に (featurep 'emacs) を追加.
 
-2011-10-25  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-09  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-tut.el (skktut-init-variables-alist): チュートリアルの起動
-	時に skk-kcode-method を初期化.
+	* skk-macs.el (characterp, int-char, string-to-char-list)
+	(string-to-int-list, character-to-event, event-to-character)
+	(cancel-undo-boundary, next-command-event)
+	(skk-color-cursor-display-p, skk-char-to-unibyte-string)
+	(skk-ascii-char-p, skk-jisx0208-p, skk-jisx0213-p)
+	(skk-split-char, skk-char-charset, skk-region-active-p)
+	(skk-process-kill-without-query, skk-string<):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
 
-2011-10-24  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	(skk-indicator-to-string, substring-no-properties):
+	Emacs 21 向けコードを削除.
 
-	* doc/skk.texi (skk-isearch-use-previous-mode): 記述を更新.
+	* skk-vars.el (skk-find-window-system): コメントを修正.
+	(skk-deflocalvar, skk-show-japanese-menu):
+	Emacs 21 向けコードを削除.
 
-	* skk.el (skk-setup-shared-private-jisyo): インデントを整理.
+2012-01-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* skk-vars.el (skk-record-file): docstring を更新.
+	* skk-vars.el (find-coding-system, skk-find-window-system)
+	(skk-coding-system-alist):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
 
-2011-10-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk.el (skk-henkan-show-candidate-subr, skk-search-function-usage)
+	(skk-mode-invoke, skk-setup-j-mode-map-options)
+	(skk-multiple-line-message):
+	skk-running-gnu-emacs に代えて (featurep 'emacs) を使用.
 
-	* skk-vars.el (skk-init-file, skk-count-private-jisyo-candidates-exactly)
-	(skk-auto-insert-paren, skk-auto-start-henkan-keyword-list)
-	(skk-delete-implies-kakutei, skk-verbose): docstring を更新.
+	* skk-macs.el (ignore-errors): Emacs 21 向けコードを削除.
+	docstring を修正.
+	(skk-called-interactively-p, skk-sit-for, skk-window-body-height):
+	Emacs 21 向けコードを削除.
 
-	* doc/skk.texi (skk-jisyo-fix-order): 記述を更新.
+	* skk-kcode.el (skk-display-code): char-to-ucs() が未定義の場合は
+	encode-char() を使用.
 
-	* skk-annotation.el (skk-annotation-message): (split-string ...) を
-	 (delete "" (split-string ...)) へ変更 [skk 7513].
+2012-01-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-2011-10-22  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* skk-vars.el (skk-kcode-method, skk-kcode-charset-list): skk-running-gnu-emacs
+	に代えて (featurep 'emacs) を使用.
+	(skk-tooltip-mouse-behavior, skk-large-jisyo, skk-aux-large-jisyo):
+	(skk-use-face, skk-cdb-large-jisyo): Emacs 21 向けコードを削除.
 
-	* SKK-MK (SKK-MK-what-where): interactive-p() に代えて noninteractive
-	を使用.
+	* SKK-MK (166行目): `;; After determining APEL installed dirctory.' の
+	部分から Emacs 21 向けコードを削除.
+	(VERSION-STRING): Interactive Installer 起動時に skk-version を表示.
 
-2011-10-22  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+	* Makefile (VERSION): 14.4.50 へと修正.
 
-	* skk-hint.el (skk-hint-setup-hint): メッセージの内容を修正.
+2012-01-05  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
 
-	* skk-kakasi.el (skk-kakasi-region): 同上.
+	* skk-version.el (skk-version):  Do not increment the major
+	version before the release of a new Emacs major version.
 
-	* skk.el (skk-record-jisyo-data): docstring を修正.
+2012-01-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi: 微修正.
+	* doc/skk.texi: GNU Emacs 21 に言及する記述を削除.
 
-2011-10-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-04  Tatsuya Kinoshita  <tats@vega.ocn.ne.jp>
 
-	* doc/skk.texi: 微修正.
+	* experimental/skk-exserv.el, experimental/skk-w3m.el,
+	experimental/rdbms/skk-rdbms.el: Don't use `skk-emacs-type'.
 
-2011-10-18  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-04  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
 
-	* doc/skk.texi: 微修正.
+	* ChangeLog.4, ChangeLog.5, ChangeLog.6, ChangeLog.7: Merge them
+	into a single file ChangeLog.4.
 
-2011-10-04  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+2012-01-04  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
 
-	* doc/skk.texi: 微修正.
-
-2011-08-14  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-emacs.el (skk-tooltip-relative-p): New function.
-	(skk-tooltip-show-at-point): Use it to detect Cocoa Emacs 23.
-
-2011-08-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* bayesian/README.ja: ドキュメントの微修正.
-	* bayesian/bskk: ドキュメントの微修正.
-	RCS のキーワード展開 Id と Date を挿入.
-
-2011-07-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-study.el (skk-study-remove-theme): skk-error() に代えて
-	skk-message() を使用.
-
-2011-07-19  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-azik.el (skk-azik-additional-rom-kana-rule-list):
-	「子音 + ピリオド」の組み合せ、具体的には次の4つを削除.
-	"b." nil ("ブ" . "ぶ")
-	"m." nil ("ム" . "む")
-	"n." nil ("ヌ" . "ぬ")
-	"z." nil ("ズ" . "ず")
-
-	yuu <sleepboy.zzz@gmail.com> さん、Teika Kazura <teika@lavabit.com>
-	さんからの提案 [skk 7485].
-
-2011-07-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-tut.el (skktut-make-windows, skktut-end-tutorial):
-	switch-to-buffer() に代えて pop-to-buffer() を使用.
-	(skktut-end-tutorial): 終了時メッセージの文言を微修正.
-
-2011-07-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-tankan-mode-original-window-configuration):
-	新たな変数.
-
-	* skk-tankan.el (skk-tankan): M-x skk-tankan 実行時の
-	window-configuration を保存.
-	(skk-tankan-mode-quit): window-configuration を復帰.
-
-	* skk-cus.el (skk-customize, skk-customize-done): switch-to-buffer()
-	に代えて set-window-buffer() を使用.
-
-	* skk-annotation.el (skk-annotation-add): switch-to-buffer() に代えて
-	pop-to-buffer() を使用.
-
-2011-07-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-vars.el (skk-update-jisyo-function)
-	(skk-save-jisyo-function): docstring を更新.
-
-2011-07-10  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk.el (skk-kakutei, skk-search-jisyo): コメントを追加.
-
-	* doc/skk.texi (skk-search-jisyo-file): 更新.
-
-2011-07-09  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
-
-	* skk-emacs.el (skk-tooltip-show-at-point): Workaround for NTEmacs
-	with its frame maximized.  Eval the frame parameters left and top.
-
-2011-07-09  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk.el (skk-save-jisyo-original, skk-create-file)
-	(skk-get-jisyo-buffer, skk-search-jisyo-file)
-	(skk-compose-ignore-word): コメントや docstring に記載のあった単語
-	「オプション引数」を「オプショナル引数」へ統一した.
-
-	* skk-macs.el (skk-erase-prefix): 同上.
-
-	* skk-jisyo-edit-mode.el (skk-edit-private-jisyo): 同上.
-
-	* skk-gadget.el (skk-ad-to-gengo, skk-gengo-to-ad): 同上.
-
-2011-07-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* skk-server.el (skk-server-version): skk-error() の引数の順序が逆で
-	あったため、これを修正.
-
-2011-07-02  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi: 更新.
-
-	* skk-kcode.el (skk-display-code-for-char-at-point):
-	if() について、then でも else でも t を返すコードであるため、if() を
-	抜けたあとに t を評価するようにした.
-	(skk-display-code): "判別できない文字です" について、skk-error() を
-	やめてメッセージ化した.
-	これまでの表示方法（ツールチップまたはエコーエリア）に加え、別ウィン
-	ドウでの表示をサポートした. skk-show-candidates-always-pop-to-buffer
-	と連動する.
-
-2011-07-02  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
-
-	* doc/skk.texi, Makefile, skk-version.el: Bump SKK version to 14.3.50.
+	* SKK-MK: version check when installation. Emacs 21 is not supported by
+	this version of SKK.
+	* doc/skk.texi, Makefile, skk-version.el: Bump SKK verison to 15.0.50.
 
 ;; Local Variables:
 ;; coding: iso-2022-7bit-ss2

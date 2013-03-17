@@ -7,9 +7,9 @@
 
 ;; Author: Masahiko Sato <masahiko@kuis.kyoto-u.ac.jp>
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: skk-tut.el,v 1.88 2011/12/18 04:58:10 skk-cvs Exp $
+;; Version: $Id: skk-tut.el,v 1.90 2012/08/28 12:14:21 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
-;; Last Modified: $Date: 2011/12/18 04:58:10 $
+;; Last Modified: $Date: 2012/08/28 12:14:21 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -300,9 +300,9 @@
     (skk-kcode-charset . (if (featurep 'jisx0213)
 			     (quote japanese-jisx0208)
 			   skk-kcode-charset))
-    (skk-kcode-method . (if skk-running-gnu-emacs
-				'code-or-char-list
-			      'code-or-menu))
+    (skk-kcode-method . (if (featurep 'emacs)
+			    'code-or-char-list
+			  'code-or-menu))
     (skk-dcomp-activate . nil)
     (skk-dcomp-multiple-activate . nil)
     (skk-read-from-minibuffer-function . nil)
@@ -428,14 +428,14 @@
 
 (defadvice skk-kakutei (before skktut-ad disable)
   "SKK チュートリアル用アドバイス付。"
-  (when (and (interactive-p)
+  (when (and (skk-called-interactively-p 'interactive)
 	     (= skktut-question-count 1))
     (skktut-error "このキーはまだ使えません"
 		  "Cannot use this key yet")))
 
 (defadvice skk-mode (before skktut-ad disable)
   "SKK チュートリアル用アドバイス付。"
-  (when (and (interactive-p)
+  (when (and (skk-called-interactively-p 'interactive)
 	     (= skktut-question-count 1))
     (skktut-error "このキーはまだ使えません"
 		  "Cannot use this key yet")))

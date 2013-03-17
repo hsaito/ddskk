@@ -17,12 +17,16 @@ APEL をインストールした上で DDSKK 14.1 をインストールしてください。
 
 ** Emacs21 / Meadow 2.11
 
-APEL をインストールした上で DDSKK 最新版をインストールしてください。
+APEL をインストールした上で DDSKK 14.4 をインストールしてください。
 
 ** Emacs22 以降 / Meadow 2.20 / Meadow 3.00
 
 APEL のインストールは不要です。
 DDSKK 最新版をインストールしてください。
+
+** Emacs24.3 以降
+
+DDSKK 14.4 では isearch の不具合があります。DDSKK 15.1 をインストールしてください。
 
 * Meadow/NTEmacs
 
@@ -266,6 +270,15 @@ Windows 上で動作する SKK ライクの IME があります。
 
     (http://www.tatari-sakamoto.jp/skkime.jis.html)
      http://homepage3.nifty.com/monjya/skkime.jis.html
+
+** SKK日本語入力FEP
+
+そのまま引用させていただきます。
+  「SKK日本語入力FEPはWindows用の日本語入力ソフトです。
+    インストールするとWindowsのすべてのアプリケーションに作用し、
+    SKK方式による日本語のかな漢字変換入力が可能になります。」
+
+     http://coexe.web.fc2.com/programs.html
 
 ** corvus-skk
 

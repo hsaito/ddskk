@@ -5,9 +5,9 @@
 
 ;; Author: Masatake YAMATO <masata-y@is.aist-nara.ac.jp>
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: skk-cursor.el,v 1.44 2011/06/03 22:44:55 skk-cvs Exp $
+;; Version: $Id: skk-cursor.el,v 1.46 2013/01/13 09:45:48 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
-;; Last Modified: $Date: 2011/06/03 22:44:55 $
+;; Last Modified: $Date: 2013/01/13 09:45:48 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -38,7 +38,7 @@
   (require 'skk-vars))
 
 (eval-and-compile
-  (when skk-running-gnu-emacs
+  (when (featurep 'emacs)
     (require 'ccc)))
 
 ;; Functions.
@@ -58,7 +58,7 @@
     (skk-cursor-default-color))
    ;; `skk-start-henkan' の中では、skk-j-mode フラグを立てながら、
    ;; skk-abbrev-mode フラグも立てている (変換後、直後に入力する文
-   ;; 字が元の入力モードにて行なわれるように)。従い、skk-abbrev-mode
+   ;; 字が元の入力モードにて行われるように)。従い、skk-abbrev-mode
    ;; フラグのチェックの優先度を上げる。
    (skk-abbrev-mode
     skk-cursor-abbrev-color)

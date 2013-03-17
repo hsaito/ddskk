@@ -5,9 +5,9 @@
 
 ;; Author: HAMANO Kiyoto <khiker.mail@gmail.com>
 ;; Maintainer: Tsuyoshi Kitamoto <tsuyoshi.kitamoto@gmail.com>
-;; Version: $Id: skk-search-web.el,v 1.1 2011/11/21 12:56:26 skk-cvs Exp $
+;; Version: $Id: skk-search-web.el,v 1.4 2012/09/07 05:58:06 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
-;; Last Modified: $Date: 2011/11/21 12:56:26 $
+;; Last Modified: $Date: 2012/09/07 05:58:06 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -63,12 +63,11 @@
     (unwind-protect
 	(progn
 	  (setq buf (let (
-			  ;;(url-request-extra-headers
-			  ;;	 '(("" . "")
-			  ;;	   ("" . "")))
+			  ;; (url-request-extra-headers '(("" . "")
+			  ;; 			          ("" . "")))
 			  (url-request-method "GET")
 			  (url-max-redirextions 0))
-		      (url-retrieve-synchronously url)))
+		      (url-retrieve-synchronously url))) ; return BUFFER contain data
 	  (when (setq p (url-http-symbol-value-in-buffer
 			 'url-http-end-of-headers buf))
 	    (with-current-buffer buf
@@ -81,7 +80,8 @@
 
 (defun skk-google-cgi-api-for-japanese-input (word)
   "Google CGI API for Japanese Input を利用したかな漢字変換.
-http://www.google.com/intl/ja/ime/cgiapi.html"
+http://www.google.co.jp/ime/cgiapi.html"
+ ;; http://www.google.com/intl/ja/ime/cgiapi.html (404 not found)
   (let* ((jsonp (skk-url-retrieve
 		 (concat "http://www.google.com/transliterate"
 			 "?langpair=ja-Hira|ja"
@@ -100,28 +100,66 @@ http://www.google.com/intl/ja/ime/cgiapi.html"
 
 
 (defun skk-google-suggest (word)
-  "Google サジェストを利用したかな漢字変換.
-http://labs.google.com/intl/ja/suggestfaq.html"
-  (let* ((jsonp (skk-url-retrieve
-		 (concat "http://clients1.google.co.jp/complete/search"
-			 "?hl=ja"
-			 "&cp=2"
-			 "&q=" (url-hexify-string
-				(encode-coding-string word 'utf-8)))
-		 'sjis))
-	 (json (json-read-from-string (substring jsonp
-						 19
-						 (1- (length jsonp)))))
-	 ;; ["みだしご" [["候補a" "" "0r"]
-	 ;;              ["候補b" "" "1r"]
-	 ;;              ["候補c" "" "2r"]] ((k . 1))]
-	 (ary (aref json 1))
-	 list)
-    (dotimes (i (length ary))
-      (setq list (cons (aref (aref ary i) 0)
-		       list)))
-    (nreverse list)))
+  "Google サジェストを利用したかな漢字変換."
+;; http://labs.google.com/intl/ja/suggestfaq.html (404 not found)
+  ;; (let* ((jsonp (skk-url-retrieve
+  ;; 		 (concat "http://clients1.google.co.jp/complete/search"
+  ;; 			 "?hl=ja"
+  ;; 			 "&cp=2"
+  ;; 			 "&q=" (url-hexify-string
+  ;; 				(encode-coding-string word 'utf-8)))
+  ;; 		 'sjis))
+  ;; 	 (json (json-read-from-string (substring jsonp
+  ;; 						 19
+  ;; 						 (1- (length jsonp)))))
+  ;; 	 ;; ["みだしご" [["候補a" "" "0r"]
+  ;; 	 ;;              ["候補b" "" "1r"]
+  ;; 	 ;;              ["候補c" "" "2r"]] ((k . 1))]
+  ;; 	 (ary (aref json 1))
+  ;; 	 list)
+  ;;   (dotimes (i (length ary))
+  ;;     (setq list (cons (aref (aref ary i) 0)
+  ;; 		       list)))
+  ;;   (nreverse list)))
 
+;; いつのまにか json レスポンスが廃止されたようです。
+;; xml レスポンスを使うように変更した。 2012.9
+
+  ;; Emacs22 で (require 'xml) が上手くいかないのでボツ
+  ;; (let* ((root (with-temp-buffer
+  ;; 		 (insert (skk-url-retrieve
+  ;; 			  (concat "http://clients1.google.co.jp/complete/search"
+  ;; 				  "?hl=ja"
+  ;; 				  "&cp=2"
+  ;; 				  "&output=toolbar" ; xml
+  ;; 				  "&q=" (url-hexify-string
+  ;; 					 (encode-coding-string word 'utf-8)))
+  ;; 			  'sjis))
+  ;; 		 (xml-parse-region)))
+  ;; 	 (sugges (xml-node-children (car root)))
+  ;; 	 list)
+  ;;   (dolist (s sugges)
+  ;;     (setq list (cons
+  ;; 		  (xml-get-attribute (car (xml-node-children s))
+  ;; 				     'data)
+  ;; 		  list)))
+  ;;   (nreverse list)))
+
+  (with-temp-buffer
+    (insert (skk-url-retrieve (concat "http://clients1.google.co.jp/complete/search"
+				      "?hl=ja"
+				      "&cp=2"
+				      "&output=toolbar" ; xml
+				      "&q=" (url-hexify-string
+					     (encode-coding-string word 'utf-8)))
+			      'sjis))
+    (goto-char (point-min))
+    (let (list)
+      (while (re-search-forward "suggestion data=\"\\([^>]*\\)\"" nil t)
+	(setq list (cons (buffer-substring (match-beginning 1)
+					   (match-end 1))
+			 list)))
+      (nreverse list))))
 
 (defun skk-wikipedia-suggest (word)
   (let* ((jsonp (skk-url-retrieve

@@ -34,16 +34,7 @@
   (require 'skk-vars)
   (require 'skk-macs)
 
-  (defvar tool-bar-border)
-
-  (when (= emacs-major-version 21)
-    (defalias 'window-inside-pixel-edges 'ignore)
-    (defalias 'posn-at-point 'ignore)))
-
-(when (eval-when-compile (= emacs-major-version 21))
-  ;; Emacs 21 では `make-temp-file' の脆弱性に対処するため
-  ;; poe を必要とする。
-  (require 'poe))
+  (defvar tool-bar-border))
 
 (eval-and-compile
   (autoload 'mouse-avoidance-banish-destination "avoid")
@@ -209,7 +200,6 @@
 	      (boundp 'mac-carbon-version-string) ; Carbon Emacs
 	      (featurep 'ns) ; Cocoa Emacs
 	      (and (eq window-system 'x)
-		   (>= emacs-major-version 22)
 		   (boundp 'gtk-version-string)
 		   (stringp (symbol-value 'gtk-version-string))
 		   (string< "2.0" (symbol-value 'gtk-version-string))))
@@ -260,19 +250,18 @@
 
 (defun skk-emacs-circulate-modes (&optional arg)
   (interactive "P")
-  (cond
-   (skk-henkan-mode
-    nil)
-   ((not skk-mode)
-    (skk-mode arg))
-   (skk-j-mode
-    (if skk-katakana
-	(skk-jisx0208-latin-mode arg)
-      (skk-toggle-kana arg)))
-   (skk-jisx0208-latin-mode
-    (skk-latin-mode arg))
-   (skk-latin-mode
-    (skk-j-mode-on))))
+  (cond (skk-henkan-mode
+	 nil)
+	((not skk-mode)
+	 (skk-mode arg))
+	(skk-j-mode
+	 (if skk-katakana
+	     (skk-jisx0208-latin-mode arg)
+	   (skk-toggle-kana arg)))
+	(skk-jisx0208-latin-mode
+	 (skk-latin-mode arg))
+	(skk-latin-mode
+	 (skk-j-mode-on))))
 
 (defun skk-emacs-info ()
   (interactive)
@@ -290,23 +279,19 @@
 (defun skk-emacs-prepare-modeline-properties ()
   (setq skk-icon
 	(let* ((dir (ignore-errors
-		      (file-name-directory
-		       (if (eval-when-compile (>= emacs-major-version 22))
-			   ;; Emacs 22 以降 `locate-file' が利用可能。
-			   (or (locate-file "skk/skk.xpm"
-					    (list (expand-file-name
-						   "../../.."
-						   data-directory)))
-			       (locate-file "skk/skk.xpm"
-					    (list data-directory)))
-			 ;; Emacs 21
-			 skk-tut-file))))
+		     (file-name-directory
+		      (or (locate-file "skk/skk.xpm"
+				       (list (expand-file-name
+					      "../../.."
+					      data-directory)))
+			  (locate-file "skk/skk.xpm"
+				       (list data-directory))))))
 	       (image (when dir
 			(find-image
 			 `((:type xpm
 				  :file ,(expand-file-name "skk.xpm" dir)
 				  :ascent center)))))
-	       (string "dummy"))
+	       (string "skk"))
 	  (if (and skk-show-icon window-system image)
 	      (apply 'propertize string
 		     (cons 'display (cons image skk-emacs-modeline-property)))
@@ -472,22 +457,15 @@
        (< emacs-major-version 24)))
 
 (defun skk-tooltip-show-at-point (text &optional situation)
-  "TEXT を tooltip で表示する。
-オプショナル引数 SITUATION がシンボル annotation であれば、
-シンボル listing であれば、"
+  "TEXT を tooltip で表示する。"
   (require 'tooltip)
-  ;; Emacs 21 では、マウスポインタ非依存の位置決定ができない (と思われる)
-  (when (eq emacs-major-version 21)
-    (setq skk-tooltip-mouse-behavior 'follow))
-  ;;
   (let* ((P (cdr (skk-emacs-mouse-position)))
 	 (oP (cdr (mouse-position)))
 	 event
 	 parameters
 	 (avoid-destination (if (memq skk-tooltip-mouse-behavior
 				      '(avoid avoid-maybe banish))
-				(mouse-avoidance-banish-destination)
-			       nil))
+				(mouse-avoidance-banish-destination)))
 	 win
 	 tip-destination
 	 fontsize
@@ -496,8 +474,7 @@
 	 spacing border-width internal-border-width
 	 text-width text-height
 	 screen-width screen-height
-	 (inhibit-quit t)
-	 (tooltip-use-echo-area nil))
+	 (inhibit-quit t))
     ;;
     (when (null (car P))
       (unless (memq skk-tooltip-mouse-behavior '(avoid-maybe banish nil))
@@ -620,7 +597,8 @@
 			    (* (frame-pixel-width)))))
 	    (when (and (<= left mouse-x) (<= mouse-x right))
 	      ;; マウスポインタと被りそうなとき
-	      (setq left (- left (- right mouse-x) fontsize))))))))
+	      (setq left (- left (- right mouse-x) fontsize))))))
+      )) ; END **マウスポインタに依存せず tooptip の位置を決定する**
     ;;
     (setq parameters (if (eq skk-tooltip-mouse-behavior 'follow)
 			 skk-tooltip-parameters
@@ -747,7 +725,7 @@ TEXT には `skk-tooltip-face' が適用される。"
 		      (<= ch (cdr skkdic-jisx0208-hiragana-block))
 		      (setq code (encode-char ch 'japanese-jisx0208)))
 		 (aset vec i (- (logand code #xFF) 32)))
-		((and (eval-when-compile (<= emacs-major-version 22))
+		((and (eval-when-compile (= emacs-major-version 22))
 		      (setq code (split-char ch))
 		      (eq (car code) 'japanese-jisx0208)
 		      (= (nth 1 code) skkdic-jisx0208-hiragana-block))

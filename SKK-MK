@@ -5,8 +5,8 @@
 
 ;; Author: NAKAJIMA Mikio <minakaji@osaka.email.ne.jp>
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: SKK-MK,v 1.192 2011/12/14 22:32:48 skk-cvs Exp $
-;; Last Modified: $Date: 2011/12/14 22:32:48 $
+;; Version: $Id: SKK-MK,v 1.198 2012/11/12 12:14:25 skk-cvs Exp $
+;; Last Modified: $Date: 2012/11/12 12:14:25 $
 
 ;;; Commentary:
 
@@ -39,6 +39,12 @@ Please install Daredevil SKK 11.6.0"))
   (error "%s" "\
 Emacs 20.7 is not supported by this version of SKK.
 Please install Daredevil SKK 13.1 or 14.1"))
+
+(when (and (featurep 'emacs)
+	   (string-lessp emacs-version "22.0"))
+  (error "%s" "\
+GNU Emacs 21 is not supported by this version of SKK.
+Please install Daredevil SKK 14.4"))
 
 (unless (featurep 'mule)
   (error "%s" "\
@@ -89,7 +95,7 @@ This version of SKK requires MULE features"))
 	 (expand-file-name ".." exec-directory))
 	((eq system-type 'darwin)
 	 ;; Mac OS X (Carbon emacs, Cocoa Emacs または OS 付属の Emacs)
-	 ;; Mac で Emacs を build する場合は自己完結型かどうかを選べる。
+	 ;; で DDSKK を build する場合は自己完結型かどうかを選べる。
 	 ;; ユーザが自己完結型を使っているかどうか調べる。
 	 (let ((dir (expand-file-name ".." data-directory)))
 	   (if (string-match "/.+\\.app/Contents/Resources/?$" dir)
@@ -112,9 +118,9 @@ This version of SKK requires MULE features"))
 
 (setq load-path (cons (expand-file-name ".") load-path))
 
-;; 変数 install-prefix は install.el で定義されている。
-;; UNIX 的環境ではこれは "/usr/local" のような値となる。
-;; 非 UNIX 的環境のために上記で install-prefix を再設定している。
+;; 変数 install-prefix は install.el で定義されており、
+;; その値は UNIX 的環境では "/usr/local" のような値となる。
+;; 非 UNIX 的環境のために上記の setq で install-prefix を再設定している。
 ;; 非 UNIX 的環境では通常自己完結型 (self-contained) のファイル配置を
 ;; とる。この場合、特定のディレクトリ下に etc, info, lisp, site-lisp
 ;; などのディレクトリが全て含まれている。
@@ -160,18 +166,16 @@ This version of SKK requires MULE features"))
 
 ;; After determining APEL installed dirctory.
 
-(when (or (featurep 'xemacs)
-	  (and running-gnu-emacs
-	       (= emacs-major-version 21)))
+(when (featurep 'xemacs)
   (condition-case nil
       (require 'product)		; emu
     (error
      (error "%s"
-	    "DDSKK requires APEL/10.7 or later for GNU Emacs 21 and XEmacs")))
+	    "DDSKK requires APEL/10.7 or later for XEmacs")))
   (unless (product-version>= 'apel-ver
 			     '(10 7))
     (error "%s"
-	   "DDSKK requires APEL/10.7 or later for GNU Emacs 21 and XEmacs")))
+	   "DDSKK requires APEL/10.7 or later for XEmacs")))
 
 ;; constants.
 (defconst SKK-MK-texinfo-coding-system 'iso-2022-7bit)
@@ -315,23 +319,14 @@ This version of SKK requires MULE features"))
     (setq modules (cdr modules))))
 
 (defun SKK-MK-server-installed-p ()
-  (if (and running-gnu-emacs
-	   (eq system-type 'gnu/linux)
-	   (string-lessp emacs-version "22"))
-      ;; Do not call `open-network-stream' for Emacs 21.4 or earlier,
-      ;; under GNU/Linux, due to a serious problem where Emacs with a
-      ;; new shell process causes SIGPOLL in batch mode.  To return
-      ;; `nil' here is just a workaround, without really checking the
-      ;; server state.
-      nil
-    ;; Check whether we can talk to the server.
-    (require 'skk-server (expand-file-name "skk-server.el"))
-    (let ((skk-server-inhibit-startup-server t))
-      (condition-case nil
-	  (prog1
-	      (skk-server-live-p (skk-open-server))
-	    (skk-disconnect-server))
-	(error)))))
+  ;; Check whether we can talk to the server.
+  (require 'skk-server (expand-file-name "skk-server.el"))
+  (let ((skk-server-inhibit-startup-server t))
+    (condition-case nil
+	(prog1
+	    (skk-server-live-p (skk-open-server))
+	  (skk-disconnect-server))
+      (error))))
 
 (defvar SKK_SET_JISYO (not (SKK-MK-server-installed-p)))
 
@@ -966,12 +961,26 @@ SKK tutorials:
       (error "%s is not directory" directory))
   (directory-file-name (expand-file-name directory)))
 
+(defvar VERSION-STRING nil)
+(setq VERSION-STRING
+      (let (start)
+	(with-temp-buffer
+	  (insert-file-contents "skk-version.el")
+	  (goto-char (point-min))
+	  (search-forward "'version-string ")
+	  (forward-char)
+	  (setq start (point))
+	  (search-forward (char-to-string 34))
+	  (buffer-substring start (1- (point))))))
+
 (if noninteractive
     nil
   (switch-to-buffer (generate-new-buffer "*DDSKK Installer*"))
   (insert "DDSKK インストーラ\n")
   (insert "===================\n\n")
-  (insert "DDSKK のインストールを始めます。\n")
+  (insert "DDSKK "
+	  VERSION-STRING
+	  " のインストールを始めます。\n")
   (insert "C-g をタイプすると、いつでも中断できます。\n\n")
 
   (insert "DDSKK のインストール先を入力してください:\n")

@@ -4,9 +4,9 @@
 ;; Copyright (C) 1993-2000 Free Software Foundation, Inc.
 
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: skk-macs.el,v 1.181 2011/12/27 13:07:18 skk-cvs Exp $
+;; Version: $Id: skk-macs.el,v 1.192 2013/01/13 09:45:48 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
-;; Last Modified: $Date: 2011/12/27 13:07:18 $
+;; Last Modified: $Date: 2013/01/13 09:45:48 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -41,11 +41,11 @@
 
 ;;;; macros
 
-(when (eval-when-compile (and skk-running-gnu-emacs
-			      (<= emacs-major-version 22)))
+(when (eval-when-compile (and (featurep 'emacs)
+			      (= emacs-major-version 22)))
   (defmacro ignore-errors (&rest body)
-    "Execute FORMS; if an error occurs, return nil.
-Otherwise, return result of last FORM."
+    "Execute BODY; if an error occurs, return nil.
+Otherwise, return result of last form in BODY."
     `(condition-case nil
 	 (progn
 	   ,@body)
@@ -151,15 +151,15 @@ doesn't give arguments of `interactive'. See `interactive' for details."
 `yes-or-no-p' の引数 PROMPT が複雑に入れ込んでいる場合は `skk-yes-or-no-p' を
 使うよりもオリジナルの `yes-or-no-p' を使用した方がコードが複雑にならない場合
 がある。"
- (list 'yes-or-no-p (list 'if 'skk-japanese-message-and-error
-				   japanese english)))
+  (list 'yes-or-no-p (list 'if 'skk-japanese-message-and-error
+			   japanese english)))
 
 (defmacro skk-y-or-n-p (japanese english)
   "ユーザに \"y or n\" を質問し、答えが \"y\" だったら t を返す。
 `skk-japanese-message-and-error' が non-nil であれば JAPANESE を、 nil であれ
 ば ENGLISH を PROMPT として `y-or-n-p' を実行する。"
   (list 'y-or-n-p (list 'if 'skk-japanese-message-and-error
-				japanese english)))
+			japanese english)))
 
 (defmacro skk-set-marker (marker position &optional buffer)
   "マーカ MARKER を BUFFER の POSITION に移動する。
@@ -223,9 +223,8 @@ MARKER が nil だったら、新規マーカーを作って代入する。"
 	 ,@body))))
 
 (defmacro skk-called-interactively-p (&optional kind)
-  (cond ((or (featurep 'xemacs)
-	     (= emacs-major-version 21))
-	 ;; XEmacs and GNU Emacs 21
+  (cond ((featurep 'xemacs)
+	 ;; XEmacs
 	 ;; `called-interactively-p' is not defined.
 	 '(interactive-p))
 
@@ -251,37 +250,57 @@ MARKER が nil だったら、新規マーカーを作って代入する。"
        (delete-overlay o))
      (setq ,list nil)))
 
+(defmacro skk-set-deactivate-im-func (func)
+  (cond ((boundp 'deactivate-current-input-method-function)
+	 ;; GNU Emacs 24.2 から
+	 `(setq deactivate-current-input-method-function ,func))
+
+	(t
+	 ;; GNU Emacs 24.1 まで
+	 `(setq inactivate-current-input-method-function ,func))
+	))
+
+(defmacro skk-deactivate-input-method ()
+  (cond ((fboundp 'deactivate-input-method)
+	 ;; GNU Emacs 24.2 から
+	 '(deactivate-input-method))
+	(t
+	 ;; GNU Emacs 24.1 まで
+	 '(inactivate-input-method))
+	))
+
+
 ;;; functions.
 ;; version dependent
 ;; Many functions are derived from emu (APEL).
 
-(when (eval-when-compile (and skk-running-gnu-emacs
-			      (<= emacs-major-version 22)))
+(when (eval-when-compile (and (featurep 'emacs)
+			      (= emacs-major-version 22)))
   (defalias 'characterp 'char-valid-p))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defalias 'int-char 'identity))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defun string-to-char-list (string)
     "Return a list of which elements are characters in the STRING."
     (mapcar #'identity string)))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defalias 'string-to-int-list 'string-to-char-list))
 
 (when (eval-when-compile (featurep 'xemacs))
   (defun string-to-int-list (str)
     (mapcar #'char-int str)))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defun character-to-event (ch)
     "Convert keystroke CH into an event structure, replete with bucky bits.
 Note that CH (the keystroke specifier) can be an integer, a character
 or a symbol such as 'clear."
     ch))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defun event-to-character (event)
     "Return the character approximation to the given event object.
 If the event isn't a keypress, this returns nil."
@@ -296,15 +315,14 @@ If the event isn't a keypress, this returns nil."
      ((integerp event)
       event))))
 
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defun cancel-undo-boundary ()
     "Cancel undo boundary."
     (if (and (consp buffer-undo-list)
 	     (null (car buffer-undo-list)))
 	(setq buffer-undo-list (cdr buffer-undo-list)))))
 
-(unless (eval-when-compile (and skk-running-gnu-emacs
-				(>= emacs-major-version 22)))
+(when (eval-when-compile (featurep 'xemacs))
   (defun substring-no-properties (string &optional from to)
     "Return a substring of string, without text properties.
 It starts at index from and ending before to.
@@ -380,7 +398,7 @@ and replace a sub-expression, e.g.
 	(apply #'concat (nreverse matches))))))
 
 ;; For GNU Emacs.
-(when (eval-when-compile skk-running-gnu-emacs)
+(when (eval-when-compile (featurep 'emacs))
   (defun next-command-event (&optional event prompt)
     "Read an event object from the input stream.
 If EVENT is non-nil, it should be an event object and will be filled
@@ -400,18 +418,6 @@ but the contents viewed as characters do change.
 \[Emacs 20.3 emulating function]"
   flag))
 
-(defun skk-sit-for (seconds &optional nodisplay)
-  "`sit-for' の Emacsen による違いを吸収する。"
-  (cond
-   ((eval-when-compile (featurep 'xemacs))
-    (sit-for seconds nodisplay))
-   ((eval-when-compile (= emacs-major-version 21))
-    ;; GNU Emacs 21
-    (sit-for seconds nil nodisplay))
-   (t
-    ;; GNU Emacs 22.1 or later
-    (sit-for seconds nodisplay))))
-
 (defun skk-ding (&optional arg sound device)
   "`ding' の Emacsen による違いを吸収する。"
   (cond
@@ -424,7 +430,7 @@ but the contents viewed as characters do change.
   (cond
    ((eval-when-compile (featurep 'xemacs))
     (eq (device-class (selected-device)) 'color))
-   ((eval-when-compile skk-running-gnu-emacs)
+   ((eval-when-compile (featurep 'emacs))
     (and (skk-find-window-system)
 	 (fboundp 'x-display-color-p)
 	 (x-display-color-p)))))
@@ -432,7 +438,7 @@ but the contents viewed as characters do change.
 (defun skk-char-to-unibyte-string (char)
   (ignore-errors
     (cond
-     ((eval-when-compile (and skk-running-gnu-emacs
+     ((eval-when-compile (and (featurep 'emacs)
 			      (>= emacs-major-version 23)))
       ;; GNU Emacs 23.1 or later
       (string-make-unibyte (char-to-string char)))
@@ -441,7 +447,7 @@ but the contents viewed as characters do change.
 
 (defun skk-ascii-char-p (char)
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; GNU Emacs 23.1 or later
     (eq (char-charset char skk-charset-list) 'ascii))
@@ -450,7 +456,7 @@ but the contents viewed as characters do change.
 
 (defun skk-jisx0208-p (char)
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; GNU Emacs 23.1 or later
     (eq (char-charset char skk-charset-list) 'japanese-jisx0208))
@@ -459,7 +465,7 @@ but the contents viewed as characters do change.
 
 (defun skk-jisx0213-p (char)
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; GNU Emacs 23.1 or later
     (memq (char-charset char skk-charset-list)
@@ -467,14 +473,14 @@ but the contents viewed as characters do change.
 	    japanese-jisx0213.2004-1
 	    japanese-jisx0213-2)))
    (t
-    (and (featurep 'jisx0213)
+    (and (featurep 'jisx0213)		; Mule-UCS
 	 (memq (char-charset char)
 	       '(japanese-jisx0213-1 japanese-jisx0213-2))))))
 
 (defun skk-split-char (ch)
   ;; http://mail.ring.gr.jp/skk/200908/msg00006.html
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; C の split-char() と同様の機能だが、char-charset() の呼出しにおいて
     ;; 文字集合の選択肢を skk-charset-list に含まれるものに制限する。
@@ -491,12 +497,12 @@ but the contents viewed as characters do change.
 	(setq dimension (1- dimension)))
       (cons charset val)))
    (t
-    ;; Emacs 22 以前、および XEmacs
+    ;; Emacs 22 および XEmacs
     (split-char ch))))
 
 (defun skk-char-charset (ch &optional restriction)
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; GNU Emacs 23.1 or later
     (char-charset ch restriction))
@@ -518,14 +524,12 @@ but the contents viewed as characters do change.
     (if (stringp indicator)
 	indicator
       (cdr indicator)))
-   ((eval-when-compile (>= emacs-major-version 21))
+   (t
     (if no-properties
 	(with-temp-buffer
 	  (insert indicator)
 	  (buffer-substring-no-properties (point-min) (point-max)))
-      indicator))
-   (t
-    indicator)))
+      indicator))))
 
 (defun skk-mode-string-to-indicator (mode string)
   "文字列 STRING を SKK インジケータ型オブジェクトに変換する。"
@@ -593,13 +597,13 @@ BUFFER defaults to the current buffer."
 
 (defun skk-region-active-p ()
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     (use-region-p))
    ((eval-when-compile (featurep 'xemacs))
     (region-active-p))
    (t
-    ;; GNU Emacs 21 and 22.
+    ;; GNU Emacs 22.
     (and transient-mark-mode mark-active))))
 
 (put 'skk-bind-last-command-char 'lisp-indent-function 1)
@@ -614,8 +618,7 @@ BUFFER defaults to the current buffer."
 
 (defun skk-process-kill-without-query (process)
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
-			    (>= emacs-major-version 22)))
+   ((eval-when-compile (featurep 'emacs))
     (set-process-query-on-exit-flag process nil))
    (t
     (process-kill-without-query process))))
@@ -673,9 +676,9 @@ BUFFER defaults to the current buffer."
 ;;(defsubst skk-get-char (tree)
 ;;  (car tree))
 ;;
-;; skk-current-rule-tree に対して破壊的な操作は行なえない。skk-rule-tree の
-;; 内容まで変わってしまい、skk-current-rule-tree の initialize が手軽に行な
-;; えなくなる。ここが解決できれば skk-prefix を全滅できるのに...。
+;; skk-current-rule-tree に対して破壊的な操作は行えない。skk-rule-tree の
+;; 内容まで変わってしまい、skk-current-rule-tree の initialize が手軽に行え
+;; なくなる。ここが解決できれば skk-prefix を全滅できるのに...。
 ;;(defsubst skk-set-char (tree char)
 ;;  (setcar tree char))
 ;;
@@ -860,13 +863,8 @@ BUFFER defaults to the current buffer."
   (cond
    ((eval-when-compile (featurep 'xemacs))
     nil) ; XEmacs でサポートされない機能
-   ((eval-when-compile (and skk-running-gnu-emacs
-			      (>= emacs-major-version 22)))
-    (window-body-height)) ; emacs21 にはない
    (t
-    (- (window-height)
-       (if mode-line-format 1 0)
-       (if header-line-format 1 0)))))
+    (window-body-height)))) ; emacs21 にはない
 
 (defun skk-screen-column ()
   "スクリーン行から得たカーソル位置の桁数を返す。
@@ -918,7 +916,7 @@ BUFFER defaults to the current buffer."
 対して emacs-mule の encoded string に変換して比較する。
 比較の結果 str1 < str2 ならば t を返す。"
   (cond
-   ((eval-when-compile (and skk-running-gnu-emacs
+   ((eval-when-compile (and (featurep 'emacs)
 			    (>= emacs-major-version 23)))
     ;; Emacs with coding system utf-8-emacs
     (skk-string-lessp-in-coding-system str1 str2 'emacs-mule))

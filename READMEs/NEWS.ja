@@ -1,3 +1,77 @@
+* 15.1
+
+** GNU Emacs 21 のサポートを終了しました
+
+GNU Emacs 21 をお使いの方は DDSKK 14.4 を利用してください。
+
+*** skk-sit-for() を廃止しました。
+
+** GNU Emacs 24 対応を進めました
+
+*** M-x customize-theme に対応するよう ccc.el を修正しました。[skk 7667]
+
+*** マクロ skk-set-deactivate-im-func を追加
+
+inactivate-current-input-method-function が
+deactivate-current-input-method-function へ変更されたことに伴う wrap マクロ
+
+*** マクロ skk-deactivate-input-method を追加
+
+inactivate-input-method が
+deactivate-input-method へ変更されたことに伴う wrap マクロ
+
+*** isearch-cmds の仕様変更に対応 [skk 7688]
+
+*** face 名 'modeline から 'mode-line へ変更 [skk 7681]
+
+*** tooltip-use-echo-area の使用をやめました。[skk 7669]
+
+** multi-tty 対応を進めました
+
+multi-tty に対応するよう ccc.el を修正しました。[skk 7641]
+
+** $ タイプ時の挙動
+
+`$' のタイプで起動する skk-display-code-for-char-at-point について、
+jisx0213, jisx0208, ascii 以外の文字集合であれば「判別できない文字です」と
+表示していたところ、skk-char-charset() で得た文字集合を表示するようにしま
+した。
+
+** タイプ #8 (桁区切り) を追加しました。
+
+辞書エントリーに `#8' があれば、「Q 1 2 3 4 5 6 7 <SPC>」の操作で
+候補「▼1,234,567」が表示されます。
+
+*** skk-num.el
+
+関数 add-number-grouping() と関数 skk-num-grouping() を追加しました。
+
+*** skk-vars.el
+
+区切る記号を 変数 skk-num-grouping-separator で、何桁毎に区切るかを
+変数 skk-num-grouping-places で指定します。
+
+** 新たな日付変換を追加しました。
+
+新たな関数 skk-relative-date() を追加しました。skk-current-date() の機能
+拡張版です。skk-gadget.el のコメントを参考に辞書エントリを追加することに
+よって、見出し語「▽きのう」や「▽あさって」などから具体的な日付を求める
+ことができます。
+
+** その他バグ修正など
+
+*** ccc.el のバグ修正 (M-x load-theme 対応) [skk 7683]
+
+*** context-skk.el のバグ修正 [skk 7655] 
+
+*** undo の挙動を修正 [skk 7661]
+
+*** 廃止された変数 skk-emacs-type の撤廃 [skk 7638]
+
+*** experimental/skk-search-web.el
+
+json レスポンスから xml レスポンスを使用するように変更.
+
 * 14.4
 
 ** skk-isearch 設定の単純化

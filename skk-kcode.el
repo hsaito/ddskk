@@ -7,9 +7,9 @@
 
 ;; Author: Masahiko Sato <masahiko@kuis.kyoto-u.ac.jp>
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: skk-kcode.el,v 1.101 2011/12/17 04:46:50 skk-cvs Exp $
+;; Version: $Id: skk-kcode.el,v 1.107 2012/11/26 12:51:12 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
-;; Last Modified: $Date: 2011/12/17 04:46:50 $
+;; Last Modified: $Date: 2012/11/26 12:51:12 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -33,7 +33,6 @@
 ;;; Code:
 
 (eval-when-compile
-  ;;   (require 'font-lock)
   (require 'cl)
   (require 'skk-macs)
   (require 'skk-vars)
@@ -434,17 +433,16 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 
 ;;;###autoload
 (defun skk-display-code-for-char-at-point (&optional arg)
-  "ポイントにある文字の区点番号、JIS コード、EUC コード及びシフト JIS コード\
- を表示する。"
+  "ポイントにある文字の区点番号、JIS コード、EUC コード、シフト JIS コード\
+及びユニコードを表示する。"
   (interactive)
   (if (eobp)
       (skk-message "カーソルがバッファの終端にあります"
 		   "Cursor is at the end of the buffer")
-    (skk-display-code (following-char)))
+    (skk-display-code (following-char) (point)))
   t) ; エコーした文字列をカレントバッファに挿入しないように。
 
-(defun skk-display-code (char)
-;;   (require 'font-lock)
+(defun skk-display-code (char p)
   (let ((charset (skk-char-charset char skk-charset-list))
 	mesg)
     (cond
@@ -466,12 +464,13 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 	     (char-data (skk-tankan-get-char-data char))
 	     (anno (skk-tankan-get-char-annotation char))
 	     (unicode (cond ((eval-when-compile
-			       (and skk-running-gnu-emacs
+			       (and (featurep 'emacs)
 				    (>= emacs-major-version 23)))
 			     (concat ", "
 				     (propertize "UNICODE:" 'face
 						 'skk-display-code-prompt-face)
 				     (format "U+%04x" char)))
+
 			    ((and (eval-when-compile (fboundp 'char-to-ucs))
 				  (fboundp 'char-to-ucs)
 				  (char-to-ucs char))
@@ -479,9 +478,19 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 				     (propertize "UNICODE:" 'face
 						 'skk-display-code-prompt-face)
 				     (format "U+%04x" (char-to-ucs char))))
+
+			    ((and (eval-when-compile (fboundp 'encode-char))
+				  (fboundp 'encode-char)
+				  (encode-char char 'ucs))
+			     (concat ", "
+				     (propertize "UNICODE:" 'face
+						 'skk-display-code-prompt-face)
+				     (format "U+%04x" (encode-char char 'ucs))))
+
 			    (t
-			     ""))))
-	;;
+			     "")))
+	     (composition (find-composition p nil nil t)))
+
 	(setq mesg
 	      (concat (propertize (char-to-string char)
 				  'face 'skk-display-code-char-face)
@@ -501,6 +510,10 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 		      (format "#x%2x%2x" char1-s char2-s)
 
 		      unicode
+		      (if composition
+			  (format " (Composed with U+%x)"
+				  (string-to-char
+				   (buffer-substring (1+ p) (nth 1 composition)))))
 		      (unless (zerop (nth 2 char-data))
 			(concat ", "
 				(propertize
@@ -516,7 +529,7 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 				   anno
 				   'face
 				   'skk-display-code-tankan-annotation-face)))
-			   ))))
+		      ))))
      ;;
      ((memq charset '(ascii latin-jisx0201))
       (setq mesg
@@ -526,10 +539,14 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
 		    (propertize "DECIMAL:" 'face 'skk-display-code-prompt-face)
 		    (format "%3d" (skk-char-octet char 0)))))
      ;;
+     ((eq (char-charset char) 'unicode)
+      (setq mesg (format "UNICODE: U+%04x" char))) ;要mule-ucs(emacs22)対応
+     ;;
      (t
-      (setq mesg (if skk-japanese-message-and-error
-		     "判別できない文字です"
-		   "Cannot understand this character"))))
+      (setq mesg (format (if skk-japanese-message-and-error
+			     "文字集合 %s はサポートしていません"
+			   "%s character set is not supported")
+			 (char-charset char)))))
     ;;
     (cond
      ((and window-system
@@ -661,7 +678,7 @@ To find a character in `%s', type 7/8 bits JIS code (00nn),\
     (if (eq 'ascii (car (split-char c)))
 	;; 区切り行などで $ された場合
 	(next-completion 1)
-      (skk-display-code c))))
+      (skk-display-code c (point)))))
 
 (defun skk-list-chars-copy ()
   (interactive)

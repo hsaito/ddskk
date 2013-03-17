@@ -1,3 +1,85 @@
+2013-03-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* INSTALL, NEWS.ja, README.w32.ja: Update.
+
+2013-03-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* INSTALL, NEWS.ja, PROPOSAL.ja: Update.
+
+2013-02-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja, AUTHORS.ja: Update.
+
+2013-01-20  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja, AUTHORS.ja: Update.
+
+2013-01-14  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* README.MacOSX.ja, PROPOSAL.ja, NEWS.ja: Update.
+
+2012-12-23  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* INSTALL: Update.
+
+	* Contributors (Contributors): Update.
+
+2012-12-16  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: Update.
+
+	* INSTALL: Update.
+
+2012-10-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* Contributors (Contributors): Add Yuhei Maeda.
+
+	* AUTHORS.ja: Update.
+
+	* NEWS.ja: Update.
+
+2012-08-21  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: Update.
+
+2012-08-18  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
+
+	* TODO.ja: Update.
+
+2012-08-05  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: Update.
+
+2012-06-26  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* README.w32.ja: 「SKK日本語入力FEP」の記述を追加.
+
+2012-06-12  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: Update.
+
+2012-03-15  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	Suggested by 玉野健一 <suzu@a7m3.jp>.
+
+	* README.MacOSX.ja: Update.
+
+2012-01-19  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: revision 1.97 is broken. 1.98 and 1.96 is the same content.
+
+2012-01-08  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* NEWS.ja: Update.
+
+2012-01-07  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* README.w32.ja, PROPOSAL.ja: Update.
+
+2012-01-04  Tsuyoshi Kitamoto  <tsuyoshi.kitamoto@gmail.com>
+
+	* CODENAME.ja: Update.
+
 2011-12-23  Tetsuo Tsukamoto  <czkmt@remus.dti.ne.jp>
 
 	* NEWS.ja: Update for skk-isearch.

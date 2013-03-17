@@ -5,10 +5,10 @@
 
 ;; Author: NAKAJIMA Mikio <minakaji@osaka.email.ne.jp>
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: skk-annotation.el,v 1.230 2011/12/14 22:32:48 skk-cvs Exp $
+;; Version: $Id: skk-annotation.el,v 1.236 2013/01/13 09:45:48 skk-cvs Exp $
 ;; Keywords: japanese, mule, input method
 ;; Created: Oct. 27, 2000.
-;; Last Modified: $Date: 2011/12/14 22:32:48 $
+;; Last Modified: $Date: 2013/01/13 09:45:48 $
 
 ;; This file is part of Daredevil SKK.
 
@@ -81,7 +81,7 @@
 ;;    「いぜん /以前;previous/依然;still/」
 ;;
 ;; ユーザアノテーションとシステムアノテーションを区別することで、ユー
-;; ザアノテーションだけを表示したり、あるいはその逆を行なうことが可能
+;; ザアノテーションだけを表示したり、あるいはその逆を行うことが可能
 ;; です。`skk-annotation-function' に表示したいアノテーションを
 ;; non-nil と判定する関数を書きましょう。こんな感じです。
 ;;
@@ -105,7 +105,7 @@
 ;;
 ;; して下さい。
 ;;
-;; Viper 対策はまだ行なっていません。~/.viper に次のように書いて下さい。
+;; Viper 対策はまだ行っていません。~/.viper に次のように書いて下さい。
 ;; (viper-harness-minor-mode "skk-annotation")
 ;;
 ;; <lookup.el からのアノテーション>
@@ -180,7 +180,7 @@
 ;;
 ;;   M-x skk-annotation-update-jisyo-format
 ;;
-;; することでこの作業を行なうことができます。
+;; することでこの作業を行うことができます。
 ;;
 ;; 但し、既にアノテーションが付けられている場合は、このアノテーション
 ;; 自体も候補と区別できずに quote されてしまいますので、ご注意下さい
@@ -276,7 +276,7 @@
 
 (defun skkannot-sit-for (seconds &optional listing-p)
   (condition-case nil
-      (skk-sit-for seconds)
+      (sit-for seconds)
     (quit
      (with-current-buffer skkannot-buffer-origin
        (cond
@@ -425,9 +425,10 @@
 
 ;;;###autoload
 (defun skk-annotation-display-p (test)
+  ;; TEST は 'list 又は 'minibuf
   (skkannot-clear-msg)
   ;;
-  (cond ((eq skk-show-annotation nil)
+  (cond ((null skk-show-annotation)
 	 nil)
 	((and (listp skk-show-annotation)
 	      (eq (car skk-show-annotation) 'not)
@@ -442,7 +443,7 @@
 ;;;###autoload
 (defun skk-annotation-toggle-display-p ()
   (interactive)
-  (cond ((eq skk-show-annotation nil)
+  (cond ((null skk-show-annotation)
 	 ;; do nothing
 	 nil)
 	((and (listp skk-show-annotation)
@@ -761,13 +762,7 @@ NO-PREVIOUS-ANNOTATION を指定 (\\[Universal-Argument] \\[skk-annotation-ad
 			   (t
 			    (apply #'skkannot-generate-url
 				   "http://%s.org/wiki/%s"
-				   ;; split-string の非互換性に配慮
-				   (if (eval-when-compile
-					 (and skk-running-gnu-emacs
-					      (<= emacs-major-version 21)))
-				       (cdr (split-string (cdr cache) " "))
-				     (cdr (split-string (cdr cache) " "
-							t))))))))
+				   (cdr (split-string (cdr cache) " " t)))))))
 		 (when url
 		   (setq urls (cons url urls)))))
 	     (unless (equal annotation "")
@@ -891,22 +886,22 @@ NO-PREVIOUS-ANNOTATION を指定 (\\[Universal-Argument] \\[skk-annotation-ad
     ;;
     (condition-case nil
 	(cond ((eq situation 'annotation)
-	       (if (skk-sit-for skk-verbose-wait)
+	       (if (sit-for skk-verbose-wait)
 		   (let ((i 0))
 		     (catch 'loop
 		       (while (< i 20)
 			 (message "%s" skk-annotation-message)
-			 (unless (skk-sit-for skk-verbose-message-interval)
+			 (unless (sit-for skk-verbose-message-interval)
 			   (throw 'loop nil))
 			 (message "%s" skk-annotation-wikipedia-message)
-			 (unless (skk-sit-for skk-verbose-message-interval)
+			 (unless (sit-for skk-verbose-message-interval)
 			   (throw 'loop nil))
 			 (setq i (1+ i))))
 		     (message nil))
 		 nil))
 	      ;;
 	      (t
-	       (when (skk-sit-for skk-verbose-wait)
+	       (when (sit-for skk-verbose-wait)
 		 (message "%s" skk-annotation-wikipedia-message))))
       (quit
        (when (eq skk-henkan-mode 'active)
@@ -965,6 +960,7 @@ NO-PREVIOUS-ANNOTATION を指定 (\\[Universal-Argument] \\[skk-annotation-ad
   "dict の内容を格納するバッファのフォーマット。"
   (format "  *skk dict %s" word))
 
+(declare-function comint-send-string "comint")
 (defun skkannot-py-send-string (string)
   "Evaluate STRING in inferior Python process."
   (require 'comint)
@@ -978,9 +974,10 @@ NO-PREVIOUS-ANNOTATION を指定 (\\[Universal-Argument] \\[skk-annotation-ad
       ;; as to make sure we terminate the multiline instruction.
       (comint-send-string proc "\n"))))
 
+(declare-function compilation-forget-errors "compile")
 (defun skkannot-py-send-command (command)
   "Like `skkannot-py-send-string' but resets `compilation-shell-minor-mode'."
-  (when (or (eval-when-compile (and skk-running-gnu-emacs
+  (when (or (eval-when-compile (and (featurep 'emacs)
 				    (= emacs-major-version 22)))
 	    (python-check-comint-prompt (get-buffer-process
 					 skkannot-py-buffer)))
@@ -1296,10 +1293,7 @@ NO-PREVIOUS-ANNOTATION を指定 (\\[Universal-Argument] \\[skk-annotation-ad
 	   (append '(("sup" . skkannot-wikipedia-clean-sup)
 		     ("sub" . skkannot-wikipedia-clean-sub))
 		   html2text-format-tag-list))
-	  (url-retrieve-func
-	   (if (fboundp 'url-queue-retrieve)
-	       #'url-queue-retrieve
-	     #'url-retrieve))
+	  (url-retrieve-func #'url-retrieve)
 	  buf buffer)
       (if (get-buffer cache-buffer)
 	  (with-current-buffer cache-buffer
